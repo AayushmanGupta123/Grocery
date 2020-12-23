@@ -1,21 +1,19 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import AddItemScreen from '../screens/AddItemScreen';
-import ViewItemScreen from '../screens/ViewItemScreen';
-
-
+import AddItemScreen from '../Screens/AddItemScreen';
+import ViewItemScreen from '../Screens/ViewItemScreen';
 
 export const AppTabNavigator = createBottomTabNavigator({
   AddItems : {
-    screen: BookDonateScreen,
+    screen: AddItemScreen,
     navigationOptions :{
       tabBarIcon : <Image source={require("../assets/request-list.png")} style={{width:20, height:20}}/>,
       tabBarLabel : "Add Items",
     }
   },
   ViewItems: {
-    screen: BookRequestScreen,
+    screen: ViewItemScreen,
     navigationOptions :{
       tabBarIcon : <Image source={require("../assets/request-book.png")} style={{width:20, height:20}}/>,
       tabBarLabel : "View Items",

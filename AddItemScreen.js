@@ -17,7 +17,7 @@ export default class AddItemScreen extends Component{
     super();
     this.state ={
       //listName:this.props.listName,
-      listName:"Market",
+      listName:"Mall",
       MyItem:'',
       Quantity:''
     }
@@ -27,7 +27,7 @@ export default class AddItemScreen extends Component{
 
 
   addToList =(MyItems,Quantity)=>{
-    db.collection('ShaoppingList').doc("Market").add({
+    db.collection('ShaoppingList').doc("Mall").add({
       MyItems:MyItems,
       'Quantity':Quantity
     })
@@ -44,7 +44,7 @@ export default class AddItemScreen extends Component{
   render(){
     return(
       <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }} >
-          <MyHeader title="Market"/>
+          <MyHeader title="Mall"/>
             <KeyboardAvoidingView style={styles.keyBoardStyle}>
               <TextInput
                 style ={styles.formTextInput}
