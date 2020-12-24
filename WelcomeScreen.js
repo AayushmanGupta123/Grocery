@@ -20,7 +20,7 @@ export default class WelcomeScreen extends React.Component {
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={styles.button}
-                        onPress={()=>{this.props.navigation.navigate('AddItems',{'listName':'Market'})}}
+                        onPress={()=>{this.props.navigation.navigate('ViewItems')}}
                         >
                         <Text style={styles.textStyle}>Market</Text>
                       </TouchableOpacity>

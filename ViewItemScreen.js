@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {
+  FlatList,
   View,
   Text,
   TextInput,
@@ -7,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert} from 'react-native';
+import {ListItem} from 'react-native-elements';
 import db from '../config';
 import firebase from 'firebase';
 import MyHeader from '../Components/MyHeader'
@@ -17,18 +19,46 @@ export default class AddItemScreen extends Component{
     super();
     this.state ={
       //listName:this.props.listName,
-      listName:"Market",
+      //listName:"Market",
       MyItem:'',
-      Quantity:''
+      Quantity:'',
+      MarketList:[]
     }
+    this.listRef = null;
+  }
+  getList = () => {
+    this.listref = db.collection("Market").onSnapshot((snapshot) => {
+      var newList = snapshot.doc.map(document => document.data());
+      this.setState({MarketList:newList})
+    })
+  }
+  componentDidMount(){
+    this.getList();
+  }
+  keyExtractor = (item, index) => index.toString()
+
+  renderItem = ( {item, i} ) =>{
+    return (
+      <ListItem
+        key={i}
+        title={item.ItemName}
+        subtitle={item.Quantity}
+        titleStyle={{ color: 'black', fontWeight: 'bold' }}
+        rightElement={
+            <TouchableOpacity style={styles.button}>
+              <Text style={{color:'#ffff'}}>View</Text>
+            </TouchableOpacity>
+          }
+        bottomDivider
+      />
+    )
   }
 
 
 
-
   addToList =(MyItems,Quantity)=>{
-    db.collection('ShaoppingList').doc("Market").add({
-      MyItems:MyItems,
+    db.collection('Market').add({
+      ItemName:MyItems,
       'Quantity':Quantity
     })
 
@@ -57,7 +87,7 @@ export default class AddItemScreen extends Component{
                 value={this.state.MyItem}
               />
               <TextInput
-                style ={[styles.formTextInput,{height:300}]}
+                style ={styles.formTextInput}
                 placeholder={"How Many?"}
                 onChangeText ={(text)=>{
                     this.setState({
@@ -73,6 +103,23 @@ export default class AddItemScreen extends Component{
                 <Text>Add</Text>
               </TouchableOpacity>
             </KeyboardAvoidingView>
+            <View style={{flex:1}}>
+          {
+            this.state.MarketList.length === 0
+            ?(
+              <View style={styles.subContainer}>
+                <Text style={{ fontSize: 20}}>Mall List</Text>
+              </View>
+            )
+            :(
+              <FlatList
+                keyExtractor={this.keyExtractor}
+                data={this.state.MarketList}
+                renderItem={this.renderItem}
+              />
+            )
+          }
+        </View>
             </SafeAreaView>
     )
   }
